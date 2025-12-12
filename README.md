@@ -9,6 +9,55 @@ The calculator supports basic arithmetic, memory operations, and named constants
 
 ---
 
+
+## Use Cases Implemented
+
+The following use cases are fully implemented and testable:
+
+1. **UC1 – Perform arithmetic with accumulator & operand**
+   - User enters a number (or constant name) in **Accumulator**.
+   - User enters a number (or constant name) in **Operand**.
+   - User clicks one of: **ADD**, **MULTIPLY**, **DIVIDE**, **SUBTRACT**.
+   - Frontend calls the appropriate backend endpoint (`/calc/add`, `/calc/mult`, `/calc/divide`, `/calc/subtract`).
+   - The backend resolves numeric values (including constants from the database) and returns the result.
+   - The **Result** field displays the computed value.
+
+2. **UC2 – Use memory register (MC, MR, M+, M−)**
+   - User performs calculations so that the Accumulator has a value.
+   - User can press:
+     - **M+** to add the accumulator value into memory.
+     - **M−** to subtract the accumulator value from memory.
+     - **MR** to recall memory into the Accumulator and Result fields.
+     - **MC** to clear memory back to 0.
+   - The current memory value is always displayed next to `M =`.
+
+3. **UC3 – Create a named constant**
+   - User goes to **Adjust Constants**.
+   - User enters a constant **name** (e.g., `pi`) and **value** (e.g., `3.14`).
+   - User clicks **CREATE**.
+   - Frontend calls `/calc/create-constant`.
+   - The constant is saved in the `Constants` table in MySQL.
+   - The **Constants List** refreshes and shows the new entry.
+
+4. **UC4 – List existing constants**
+   - On page load, the frontend calls `/calc/list-constants`.
+   - All stored constants are displayed as `name = value`.
+   - If there are no constants, the UI shows “No constants defined yet.”  
+   - If the backend is still loading, the UI shows “Loading…”.
+
+5. **UC5 – Delete a named constant**
+   - In the **Constants List**, each constant has a trash icon.
+   - When the user clicks the trash icon, the frontend calls `/calc/delete-constant` with the constant’s name.
+   - The constant is removed from the database.
+   - The **Constants List** is reloaded and no longer shows that entry.
+
+6. **UC6 – Use constants in arithmetic operations**
+   - User creates constants such as `pi` or `taxRate`.
+   - User types the constant **name** into the Accumulator or Operand.
+   - When clicking any arithmetic button, the backend resolves that name to its stored value and performs the operation.
+
+
+
 ## Features
 
 ### 1. Arithmetic operations
